@@ -7,7 +7,7 @@ function logRequest(req, res, next) {
     next();
 }
 
-const host = 'localhost';
+const host = 'localhost'
 const port = 3000;
 const clientApp = path.join(__dirname, 'client');
 
