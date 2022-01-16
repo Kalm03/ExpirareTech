@@ -2,7 +2,7 @@
     <div class="row justify-content-md-center align-items-center">
         <div class=" px-3 py-3 flex-fill row justify-content-md-center align-items-center ">
             <div class="col-md-auto ">
-                <a href="/recipes/new " class="btn btn-success ms-2 ">
+                <a href="/recipes/new " class="btn btn-outline-success ms-2 ">
                     New Recipe
                 </a>
             </div>
@@ -19,11 +19,11 @@
                                 <p class="card-text mb-2 text-muted ">
                                     <%= list[i].ingredients %>
                                 </p>
-                                <a href="/recipes/<%=list[i]._id %>" class="card-link btn btn-info ms-2 text-white" role="button">
+                                <a href="/recipes/<%=list[i]._id %>" class="card-link btn btn-outline-success ms-2" role="button">
                                     View Recipe
                                 </a>
                                 <form action="/recipes/<%=list[i]._id %>?_method=DELETE" method="POST" class="d-inline">
-                                    <button class="btn btn-danger ms-2">Delete</button>
+                                    <button class="btn btn-outline-danger ms-2">Delete</button>
                                 </form>
                             </div>
                         </div>

@@ -2,7 +2,7 @@
     <div class="row justify-content-md-center align-items-center">
         <div class="px-3 py-3 flex-fill row justify-content-md-center align-items-center">
             <div class="col-md-auto">
-                <button type="button" class="btn btn-success rounded-circle" disabled>5</button>
+                <button type="button" class="btn rounded-circle" style="background-color:#1c6b5b; color: white;" disabled>5</button>
             </div>
             <div class="col-md-auto">items expiring soon</div>
         </div>
@@ -10,8 +10,8 @@
         <div class="row justify-content-md-center">
             <% for(let i = 0; i < num; i++) { %>
                 <div class="col-auto mr-auto page-view">
-                    <div class="content">
-                        <div class="recipes">
+                    <div class="row">
+                        <div class="col-md-auto local_recipes">
                             <div class="card text-center m-1" style="width: 18rem">
                                 <div class="card-body">
                                     <h5 class="card-title">
@@ -20,7 +20,29 @@
                                     <p class="card-text mb-2 text-muted">
                                         <%= list[i].ingredients %>
                                     </p>
-                                    <a href="/recipes/<%=list[i]._id %>" class="card-link btn btn-success text-white" role="button">
+                                    <a href="/recipes/<%=list[i]._id %>" class="card-link btn btn-outline-success" role="button">
+                                        View Recipe
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-auto d-flex" style="margin-left:5px; margin-right:5px; width:1px; height:100%; border-left:1px solid gray;">
+
+                        </div>
+
+                        <div class="col-md-auto api_recipes">
+                            <div class="card text-center m-1" style="width: 18rem">
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        a
+                                        <%= list[i].title  %>
+                                    </h5>
+                                    <p class="card-text mb-2 text-muted">
+                                        a
+                                        <%= list[i].ingredients %>
+                                    </p>
+                                    <a href="/recipes/<%=list[i]._id %>" class="card-link btn btn-outline-success" role="button">
                                         View Recipe
                                     </a>
                                 </div>

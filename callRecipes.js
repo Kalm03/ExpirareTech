@@ -28,4 +28,5 @@ async function getRecipe(myVal) { //uses the edamam API
     }
 }
 
+
 //getRecipe();ne
