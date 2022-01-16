@@ -1,6 +1,6 @@
 <% layout('layout/boilerplate') %>
     <div class="row justify-content-md-center align-items-center mt-3">
-        <table>
+        <table class="align-self-center">
             <thead>
                 <tr>
                     <th scope="col">Days to Expiry</th>
@@ -29,10 +29,23 @@
                 <% for(let ingredient of list) { %>
                     <tr>
                         <th scope="row" class="px-2 py-2">
-                            <%= Math.floor((ingredient.lifeSpan - Date.now())/(86400000)) - 30%>
+                            <% if((Math.floor((ingredient.lifeSpan - Date.now())/(86400000)) - 30) <= 0) { %>
+                                <span style="color: #F66A67;">
+                                    <%= Math.floor((ingredient.lifeSpan - Date.now())/(86400000)) - 30%>
+                                </span>
+                                <% } else { %>
+
+                                    <%= Math.floor((ingredient.lifeSpan - Date.now())/(86400000)) - 30%>
+                                        <% } %>
                         </th>
                         <td class="px-2 py-2">
-                            <%= ingredient.name %>
+                            <% if((Math.floor((ingredient.lifeSpan - Date.now())/(86400000)) - 30) <= 0) { %>
+                                <span style="color: #F66A67;"><%= ingredient.name %></span>
+                                <% } else { %>
+
+                                    <%= ingredient.name %>
+                                        <% } %>
+
                         </td>
                         <td class="px-2 py-2">
                             <form action="/food/<%= ingredient._id %>?_method=DELETE" method="POST" class="d-inline">

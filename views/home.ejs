@@ -1,55 +1,69 @@
 <% layout('layout/boilerplate') %>
     <div class="row justify-content-md-center align-items-center">
         <div class="px-3 py-3 flex-fill row justify-content-md-center align-items-center">
-            <div class="col-md-auto">
-                <button type="button" class="btn rounded-circle" style="background-color:#1c6b5b; color: white;" disabled>5</button>
-            </div>
-            <div class="col-md-auto">items expiring soon</div>
-        </div>
-
-        <div class="row justify-content-md-center">
-            <% for(let i = 0; i < num; i++) { %>
-                <div class="col-auto mr-auto page-view">
-                    <div class="row">
-                        <div class="col-md-auto local_recipes">
-                            <div class="card text-center m-1" style="width: 18rem">
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        <%= list[i].title  %>
-                                    </h5>
-                                    <p class="card-text mb-2 text-muted">
-                                        <%= list[i].ingredients %>
-                                    </p>
-                                    <a href="/recipes/<%=list[i]._id %>" class="card-link btn btn-outline-success" role="button">
-                                        View Recipe
-                                    </a>
-                                </div>
-                            </div>
+            <% if(num <= 0) {%>
+                <div class=" row justify-content-md-center " style="margin-top: 25vh;padding: 2vh; ">
+                    <% } %>
+                        <div class="col-md-auto ">
+                            <a href="/food " class="btn rounded-circle " style="background-color: #1c6b5b; color: white " data-toggle="tooltip " data-placement="right " title="That 's in 4 days!">
+                                <%= expired %>
+                            </a>
+                        </div>
+                        <div class="col-md-auto " data-toggle="tooltip" data-placement="right" title="That's in 4 days!">
+                            <a href="/food " style="text-decoration: none; color: black ">items</a>
+                            <a href="/food " style="text-decoration: none; color: #F66A67 ">expiring</a>
+                            <a href="/food " style="text-decoration: none; color: black ">soon</a>
                         </div>
 
-                        <div class="col-md-auto d-flex" style="margin-left:5px; margin-right:5px; width:1px; height:100%; border-left:1px solid gray;">
-
-                        </div>
-
-                        <div class="col-md-auto api_recipes">
-                            <div class="card text-center m-1" style="width: 18rem">
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        a
-                                        <%= list[i].title  %>
-                                    </h5>
-                                    <p class="card-text mb-2 text-muted">
-                                        a
-                                        <%= list[i].ingredients %>
-                                    </p>
-                                    <a href="/recipes/<%=list[i]._id %>" class="card-link btn btn-outline-success" role="button">
-                                        View Recipe
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        <% if(num <= 0) {%>
                 </div>
                 <% } %>
+        </div>
+
+        <div class=" row justify-content-md-center ">
+            <div class="col-auto mr-auto page-view ">
+                <div class="row d-flex justify-content-center ">
+                    <% if(num > 0) {%>
+                        <h4>Your Recipes</h4>
+                        <% } %>
+                            <% for(let i = 0; i < num; i++) { %>
+                                <div class="col-md-auto m-1 local_recipes px-2 py-2 ">
+                                    <div class="card text-center m-1 " style="width: 18rem; background-color: #def3d9;">
+                                        <div class="card-body ">
+                                            <h5 class="card-title ">
+                                                <%= list[i].title %>
+                                            </h5>
+                                            <p class="card-text mb-2 " style="color: #73ada2 ">
+                                                <%= list[i].ingredients %>
+                                            </p>
+                                            <a href="/recipes/<%=list[i]._id %>" class="card-link btn btn-outline-success" role="button"> View Recipe
+                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% } %>
+                                    <% if(num > 0) {%>
+                                        <hr />
+                                        <h4>Other Recipes</h4>
+                                        <% } %>
+                                            <% for(let i = 0; i < num; i++) { %>
+                                                <div class="col-md-auto m-1 api_recipes px-2 py-2">
+                                                    <div class="card text-center m-1" style="width: 18rem; background-color: #f5f5f5;">
+                                                        <div class="card-body">
+                                                            <h5 class="card-title">
+                                                                <%= list[i].title %>
+                                                            </h5>
+                                                            <p class="card-text mb-2" style="color: #73ada2">
+                                                                <%= list[i].ingredients %>
+                                                            </p>
+                                                            <a href="/recipes/<%=list[i]._id %>" class="card-link btn btn-outline-success" role="button">
+                                                                View Recipe
+                                                                </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <% } %>
+                </div>
+            </div>
         </div>
     </div>

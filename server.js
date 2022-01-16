@@ -54,14 +54,28 @@ app.listen(port, () => {
 
 app.get("/", async(req, res) => {
     let list = await Recipe.find({});
-    let num = (list.length > 4) ? 4 : list.length;
-    res.render("home", { list, num });
+    let ingredientList = await Ingredient.find({
+        lifeSpan: {
+            $lt: (86400000 * (4 + 30)) + Date.now(),
+            $gt: (86400000 * (0 + 30)) + Date.now()
+        }
+    })
+    let num = (list.length > 8) ? 8 : list.length;
+    let expired = ingredientList.length;
+    res.render("home", { list, num, expired });
 });
 
 app.get("/home", async(req, res) => {
     let list = await Recipe.find({});
-    let num = (list.length > 4) ? 4 : list.length;
-    res.render("home", { list, num });
+    let ingredientList = await Ingredient.find({
+        lifeSpan: {
+            $lt: (86400000 * (4 + 30)) + Date.now(),
+            $gt: (86400000 * (0 + 30)) + Date.now()
+        }
+    })
+    let num = (list.length > 8) ? 8 : list.length;
+    let expired = ingredientList.length;
+    res.render("home", { list, num, expired });
 });
 
 
@@ -106,8 +120,6 @@ app.post("/recipes", async(req, res) => {
 app.get('/recipes/:id', async(req, res) => {
     let { id } = req.params;
     let recipe = await Recipe.findById(id);
-    // let recipe = await Recipe.findById(id);
-    // console.log(recipe)
     res.render("recipes/showRecipe", { recipe })
 })
 
@@ -115,6 +127,7 @@ app.get('/recipes/:id', async(req, res) => {
 
 app.delete('/recipes/:id', async(req, res) => {
     let { id } = req.params;
+    // await Recipe.deleteMany({})
     await Recipe.findByIdAndDelete(id);
     res.redirect('/recipes')
 })
