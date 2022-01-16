@@ -1,7 +1,7 @@
 <% layout('layout/boilerplate') %>
     <div class="row px-3 py-4" style="width:100%;">
         <div class=" col-6 offset-3">
-            <div class="card mb-3" style="background-color: #fff9f1;">
+            <div class="card mb-3" style="background-color: #f5f5f5; padding: 1.5em .5em .5em; border-radius: 2em;">
                 <div class="card-body">
                     <h5 class="card-title">
                         <%= recipe.title %>
@@ -10,7 +10,7 @@
                         <%= recipe.ingredients %>
                     </p>
                 </div>
-                <ul class="list-group list-group-flush">
+                <ul class="list-group list-group-flush" style="padding: 1.5em .5em .5em; border-radius: 2em;">
                     <li class="list-group-item">
                         <%= recipe.procedure %>
                     </li>
