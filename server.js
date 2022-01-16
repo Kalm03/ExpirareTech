@@ -94,7 +94,7 @@ app.get("/", async(req, res) => {
     })
     let num = (list.length > 8) ? 8 : list.length;
     let expired = ingredientList.length;
-    res.render("home", { list: listt, num, expired });
+    res.render("home", { list: list, num, expired });
 });
 
 app.get("/home", async(req, res) => {
