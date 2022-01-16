@@ -6,6 +6,8 @@ const ejsMate = require("ejs-mate");
 const methodOverride = require('method-override');
 const Recipe = require("./models/Recipe");
 const Ingredient = require("./models/Ingredients");
+const { getApiRecipe } = require('./callRecipes.js')
+var ingredientHolder = '';
 
 function logRequest(req, res, next) {
     console.log(`${new Date()}  ${req.ip} : ${req.method} ${req.path}`);
@@ -77,6 +79,14 @@ let allInList = (list1, list2) => {
     return true
 }
 
+let format = (list) => {
+    let ingredients = []
+    for(let item of list) {
+        ingredients.push(item.name)
+    }
+    return ingredients.join(",")
+}
+
 app.get("/", async(req, res) => {
     let listf = await Recipe.find({});
     // console.log(list)
@@ -87,14 +97,22 @@ app.get("/", async(req, res) => {
             $gt: (86400000 * (0 + 30)) + Date.now()
         }
     })
+    let ingredientString = format(ingredientList);
+    
     let list = await listf.filter(x => {
         if(oneInList(x.ingredients, ingredientList) && allInList(x.ingredients, fullIngredientList)) {
             return x
         }
     })
+    let apiRecipes = await getApiRecipe(ingredientString)
     let num = (list.length > 8) ? 8 : list.length;
+    let num2 = (apiRecipes.length > 8) ? 8 : apiRecipes.length
     let expired = ingredientList.length;
+<<<<<<< HEAD
     res.render("home", { list: list, num, expired });
+=======
+    res.render("home", { list, num, expired, apiRecipes, num2 });
+>>>>>>> cf2f390d60a966adc08bb2cc3007499ede8f4df4
 });
 
 app.get("/home", async(req, res) => {
@@ -107,14 +125,20 @@ app.get("/home", async(req, res) => {
             $gt: (86400000 * (0 + 30)) + Date.now()
         }
     })
+    let ingredientString = format(ingredientList);
+    
     let list = await listf.filter(x => {
         if(oneInList(x.ingredients, ingredientList) && allInList(x.ingredients, fullIngredientList)) {
             return x
         }
     })
+    
+    let apiRecipes = await getApiRecipe(ingredientString)
     let num = (list.length > 8) ? 8 : list.length;
+    let num2 = (apiRecipes.length > 8) ? 8 : apiRecipes.length
     let expired = ingredientList.length;
-    res.render("home", { list: list, num, expired });
+    res.render("home", { list, num, expired, apiRecipes, num2 });
+    
 });
 
 
@@ -144,6 +168,7 @@ app.delete("/food/:id", async(req, res) => {
 
 app.get("/recipes", async(req, res) => {
     let list = await Recipe.find({});
+    console.log(list)
     res.render("recipes/allRecipes", { list });
 });
 
@@ -157,7 +182,8 @@ app.post("/recipes", async(req, res) => {
     await new Recipe({
         title: req.body.title,
         ingredients: listIngredient,
-        procedure: req.body.procedure
+        procedure: req.body.procedure,
+        isCustom: true
     }).save();
     res.redirect("/home");
 });

@@ -9,6 +9,7 @@ const RecipeSchema = new Schema({
     },
   ],
   procedure: String,
+  isCustom: Boolean
 });
 
 module.exports = mongoose.model("Recipe", RecipeSchema);

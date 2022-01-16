@@ -12,17 +12,17 @@
                     <form action="/food" method="POST" class="d-inline">
                         <th scope="row" class="px-2 py-2">
                             <div class="form-group">
-                                <input type="date" id="ing-lifespan" name="lifespan" />
+                                <input type="date" id="ing-lifespan" name="lifespan" style="padding:0.5em; border-radius: 2em; " />
                             </div>
 
                         </th>
                         <td class="px-2 py-2">
                             <div class="form-group">
-                                <input type="text" class="form-control" id="ing-title" placeholder="Enter Item" name="name" />
+                                <input type="text" class="form-control" id="ing-title" placeholder="Enter Item" name="name" style="padding:0.5em; border-radius: 2em; " />
                             </div>
                         </td>
                         <td class="px-2 py-2">
-                            <button type="submit" class="btn btn-outline-success ms-2">Submit</button>
+                            <button type="submit" class="btn btn-outline-success ms-2" style="border-radius: 2em; ">Submit</button>
                         </td>
                     </form>
                 </tr>
@@ -49,7 +49,7 @@
                         </td>
                         <td class="px-2 py-2">
                             <form action="/food/<%= ingredient._id %>?_method=DELETE" method="POST" class="d-inline">
-                                <button class="btn btn-outline-danger ms-2">Delete</button>
+                                <button class="btn btn-outline-danger ms-2" style="border-radius: 2em; ">Delete</button>
                             </form>
                         </td>
                     </tr>
