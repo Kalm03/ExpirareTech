@@ -1,7 +1,7 @@
 <% layout('layout/boilerplate') %>
     <div class="row justify-content-md-center align-items-center">
         <div class="px-3 py-3 flex-fill row justify-content-md-center align-items-center">
-            <% if(num <= 0 && num <= 0) {%>
+            <% if(num <= 0 && num2 <= 0) {%>
                 <div class=" row justify-content-md-center " style="margin-top: 25vh;padding: 2vh; ">
                     <% } %>
                         <div class="col-md-auto ">
@@ -15,7 +15,7 @@
                             <a href="/food " style="text-decoration: none; color: black ">soon</a>
                         </div>
 
-                        <% if(num <= 0 && num <= 0) {%>
+                        <% if(num <= 0 && num2 <= 0) {%>
                 </div>
                 <% } %>
         </div>
@@ -42,25 +42,27 @@
                                     </div>
                                 </div>
                                 <% } %>
-                                    <% if(num2 > 0) {%>
+                                    <% if(num > 0) {%>
                                         <hr />
-                                        <h4>Other Recipes</h4>
                                         <% } %>
-                                            <% for(let i = 0; i < num2; i++) { %>
-                                                <div class="col-md-auto m-1 api_recipes px-2 py-2">
-                                                    <div class="card text-center m-1" style="width: 18rem; background-color: #f5f5f5; padding: 1.5em .5em .5em; border-radius: 2em;">
-                                                        <div class="card-body">
-                                                            <h5 class="card-title" style="color: #517a73; text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">
-                                                                <%= apiRecipes[i].title %>
-                                                            </h5>
-                                                            <p class="card-text mb-2" style="color: #666666; text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">
-                                                                <%= apiRecipes[i].ingredients %>
-                                                            </p>
-                                                            <a href="<%=apiRecipes[i].procedure %>" class="card-link btn btn-outline-success" role="button" style="border-radius: 2em;"> View Recipe</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                            <% if(num2 > 0) {%>
+                                                <h4>Other Recipes</h4>
                                                 <% } %>
+                                                    <% for(let i = 0; i < num2; i++) { %>
+                                                        <div class="col-md-auto m-1 api_recipes px-2 py-2">
+                                                            <div class="card text-center m-1" style="width: 18rem; background-color: #f5f5f5; padding: 1.5em .5em .5em; border-radius: 2em;">
+                                                                <div class="card-body">
+                                                                    <h5 class="card-title" style="color: #517a73; text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">
+                                                                        <%= apiRecipes[i].title %>
+                                                                    </h5>
+                                                                    <p class="card-text mb-2" style="color: #666666; text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">
+                                                                        <%= apiRecipes[i].ingredients %>
+                                                                    </p>
+                                                                    <a href="<%=apiRecipes[i].procedure %>" class="card-link btn btn-outline-success" role="button" style="border-radius: 2em;"> View Recipe</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <% } %>
                 </div>
             </div>
         </div>
