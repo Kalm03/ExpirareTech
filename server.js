@@ -1,65 +1,120 @@
-const path = require('path')
-const fs = require('fs')
-const express = require('express')
-const mongoose = require('mongoose')
-const ejsMate = require('ejs-mate')
-const Recipe = require('./models/Recipe')
-const Ingredient = require('./models/Ingredients')
+const path = require("path");
+const fs = require("fs");
+const express = require("express");
+const mongoose = require("mongoose");
+const ejsMate = require("ejs-mate");
+const methodOverride = require('method-override');
+const Recipe = require("./models/Recipe");
+const Ingredient = require("./models/Ingredients");
 
 function logRequest(req, res, next) {
-  console.log(`${new Date()}  ${req.ip} : ${req.method} ${req.path}`)
-  next()
+    console.log(`${new Date()}  ${req.ip} : ${req.method} ${req.path}`);
+    next();
 }
 
-const host = 'localhost'
-const port = 3000
-const clientApp = path.join(__dirname, 'client')
+mongoose.connect("mongodb://localhost:27017/expirare", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+});
 
-mongoose.connect('mongodb://localhost:27017/expirare', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error:"));
+db.once("open", () => {
+    console.log("Database connected");
+});
 
-const db = mongoose.connection
-db.on('error', console.error.bind(console, 'connection error:'))
-db.once('open', () => {
-  console.log('Database connected')
-})
+const host = "localhost";
+const port = 8000;
+const clientApp = path.join(__dirname, "public");
+
+
 
 // express app
-let app = express()
+let app = express();
 
-app.use(express.json()) // to parse application/json
+app.engine("ejs", ejsMate);
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+app.use(express.json()); // to parse application/json
 app.use(
-  express.urlencoded({
-    extended: true,
-  })
-) // to parse application/x-www-form-urlencoded
-app.use(logRequest) // logging for debug
+    express.urlencoded({
+        extended: true,
+    })
+); // to parse application/x-www-form-urlencoded
+app.use(methodOverride('_method'));
+app.use(logRequest); // logging for debug
 
-app.engine('ejs', ejsMate)
-app.set('view engine', 'ejs')
-app.set('views', path.join(__dirname, 'views'))
-app.use(express.static('public'))
-
-app.get('/', (req, res) => {
-  res.render('home')
-})
-app.get('/home', (req, res) => {
-  res.render('home')
-})
-
-app.get('/recipe/new', (req, res) => {
-  res.render('recipes/createRecipes')
-})
-
-app.post('/recipe', async (req, res) => {
-    // let list = req.body.split(",");
-    // console.log(list)
-})
+app.use(express.static(__dirname + "/public"));
 
 app.listen(port, () => {
-  console.log(
-    `${new Date()}  App Started. Listening on ${host}:${port}, serving ${clientApp}`
-  )
+    console.log(
+        `${new Date()}  App Started. Listening on ${host}:${port}, serving ${clientApp}`
+    );
+});
+
+app.get("/", async(req, res) => {
+    let list = await Recipe.find({});
+    let num = (list.length > 4) ? 4 : list.length;
+    res.render("home", { list, num });
+});
+
+app.get("/home", async(req, res) => {
+    let list = await Recipe.find({});
+    let num = (list.length > 4) ? 4 : list.length;
+    res.render("home", { list, num });
+});
+
+
+app.get("/food", async(req, res) => {
+    let list = await Ingredient.find({});
+    list = list.sort((a, b) => a.lifeSpan - b.lifeSpan)
+    console.log(list)
+    res.render("ingredients/allIngredients", { list })
+});
+
+app.post("/food", async(req, res) => {
+    let time = req.body.lifespan.split("-");
+    let timeSec = Date.UTC(...time)
+    await new Ingredient({
+        name: req.body.name,
+        lifeSpan: timeSec
+    }).save()
+    res.redirect('/food')
+})
+
+app.delete("/food/:id", async(req, res) => {
+    let { id } = req.params
+    await Ingredient.findByIdAndDelete(id)
+    res.redirect("/food")
+})
+
+
+app.get("/recipes", async(req, res) => {
+    let list = await Recipe.find({});
+    res.render("recipes/allRecipes", { list });
+});
+
+app.get("/recipes/new", (req, res) => {
+    res.render("recipes/createRecipes");
+});
+
+app.post("/recipes", async(req, res) => {
+    await new Recipe(req.body).save();
+    res.redirect("/home");
+});
+
+app.get('/recipes/:id', async(req, res) => {
+    let { id } = req.params;
+    let recipe = await Recipe.findById(id);
+    // let recipe = await Recipe.findById(id);
+    // console.log(recipe)
+    res.render("recipes/showRecipe", { recipe })
+})
+
+
+
+app.delete('/recipes/:id', async(req, res) => {
+    let { id } = req.params;
+    await Recipe.findByIdAndDelete(id);
+    res.redirect('/recipes')
 })

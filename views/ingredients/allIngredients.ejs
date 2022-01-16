@@ -1,0 +1,46 @@
+<% layout('layout/boilerplate') %>
+    <div class="row justify-content-md-center align-items-center">
+        <table>
+            <thead>
+                <tr>
+                    <th scope="col">Days to Expiry</th>
+                    <th scope="col">Item</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <form action="/food" method="POST" class="d-inline">
+                        <th scope="row" class="px-2 py-2">
+                            <div class="form-group">
+                                <input type="date" id="ing-lifespan" name="lifespan" />
+                            </div>
+
+                        </th>
+                        <td class="px-2 py-2">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="ing-title" placeholder="Enter Item" name="name" />
+                            </div>
+                        </td>
+                        <td class="px-2 py-2">
+                            <button type="submit" class="btn btn-success ms-2">Submit</button>
+                        </td>
+                    </form>
+                </tr>
+                <% for(let ingredient of list) { %>
+                    <tr>
+                        <th scope="row" class="px-2 py-2">
+                            <%= Math.floor((ingredient.lifeSpan - Date.now())/(86400000)) - 30%>
+                        </th>
+                        <td class="px-2 py-2">
+                            <%= ingredient.name %>
+                        </td>
+                        <td class="px-2 py-2">
+                            <form action="/food/<%= ingredient._id %>?_method=DELETE" method="POST" class="d-inline">
+                                <button class="btn btn-danger ms-2">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <% } %>
+            </tbody>
+        </table>
+    </div>

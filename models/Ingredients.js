@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 
 const IngredientSchema = new Schema({
     name: String,
-    LifeSpan: String
+    lifeSpan: Number
 })
 
-module.exports = mongoose.model('Ingredients', IngredientSchema)
+module.exports = mongoose.model('Ingredient', IngredientSchema)

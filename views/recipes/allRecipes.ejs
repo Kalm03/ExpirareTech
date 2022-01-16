@@ -1,0 +1,34 @@
+<% layout('layout/boilerplate') %>
+    <div class="row justify-content-md-center align-items-center">
+        <div class=" px-3 py-3 flex-fill row justify-content-md-center align-items-center ">
+            <div class="col-md-auto ">
+                <a href="/recipes/new " class="btn btn-success ms-2 ">
+                    New Recipe
+                </a>
+            </div>
+        </div>
+        <% for(let i = 0; i < list.length; i++) { %>
+            <div class="col-auto mr-auto page-view ">
+                <div class="content ">
+                    <div class="recipes ">
+                        <div class="card text-center m-1 " style="width: 18rem ">
+                            <div class="card-body ">
+                                <h5 class="card-title ">
+                                    <%= list[i].title  %>
+                                </h5>
+                                <p class="card-text mb-2 text-muted ">
+                                    <%= list[i].ingredients %>
+                                </p>
+                                <a href="/recipes/<%=list[i]._id %>" class="card-link btn btn-info ms-2 text-white" role="button">
+                                    View Recipe
+                                </a>
+                                <form action="/recipes/<%=list[i]._id %>?_method=DELETE" method="POST" class="d-inline">
+                                    <button class="btn btn-danger ms-2">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+    </div>

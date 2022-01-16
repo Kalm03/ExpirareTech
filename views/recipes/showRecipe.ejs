@@ -1,0 +1,20 @@
+<% layout('layout/boilerplate') %>
+    <div class="row" style="width:100%;">
+        <div class=" col-6 offset-3 ">
+            <div class="card mb-3 ">
+                <div class="card-body ">
+                    <h5 class="card-title ">
+                        <%= recipe.title %>
+                    </h5>
+                    <p class="card-text ">
+                        <%= recipe.ingredients %>
+                    </p>
+                </div>
+                <ul class="list-group list-group-flush ">
+                    <li class="list-group-item ">
+                        <%= recipe.procedure %>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
