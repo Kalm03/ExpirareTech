@@ -38,6 +38,7 @@ Clone this Github respository and run `npm i` to install the relevant packages.
 Once the packages are installed, run `nodemon server.js` or `node server.js` and open port at localhost:8000 to try out our food saver!
    
 ## Demo video:
+https://youtu.be/XzHTLhXeG8g
 
 ## Screenshots:
 <table>
@@ -56,7 +57,7 @@ We believe that Expirare can thrive with new features. In the future, we have su
 
 1. Providing analytics of food unused through the use of bar charts and graphs to give the users better awareness of their habits
 2. Providing nutritional aid by tracking calories
-3. Sending push alerts to the users if they wish, through email and sms.
+3. Sending push alerts to the users if they wish, through email and sms
 4. Add other recipes to your local database
 5. Set up user accounts to personalize your selection
-6. Use machine learning to learn your favourite recipe and personalise your suggestions with a 
+6. Use machine learning to learn your favourite recipe and personalise your suggestions
