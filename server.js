@@ -6,13 +6,16 @@ const ejsMate = require("ejs-mate");
 const methodOverride = require('method-override');
 const Recipe = require("./models/Recipe");
 const Ingredient = require("./models/Ingredients");
+const Darkmode = require('darkmode-js');
+
+new Darkmode().showWidget();
 
 function logRequest(req, res, next) {
     console.log(`${new Date()}  ${req.ip} : ${req.method} ${req.path}`);
     next();
 }
 
-mongoose.connect("mongodb://localhost:27017/expirare", {
+mongoose.connect("mongodb://localhost:29017/expirare", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
@@ -24,7 +27,7 @@ db.once("open", () => {
 });
 
 const host = "localhost";
-const port = 8000;
+const port = 9000;
 const clientApp = path.join(__dirname, "public");
 
 

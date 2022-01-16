@@ -7,19 +7,20 @@
                 </a>
             </div>
         </div>
-        <% for(let i = 0; i < list.length; i++) { %>
+        <% for(let i=0; i < list.length; i++) { %>
             <div class="col-auto mr-auto page-view ">
                 <div class="content ">
                     <div class="recipes ">
                         <div class="card text-center m-1 " style="width: 18rem; background-color: #f5f5f5; ">
                             <div class="card-body ">
                                 <h5 class="card-title ">
-                                    <%= list[i].title  %>
+                                    <%= list[i].title %>
                                 </h5>
                                 <p class="card-text mb-2" style="color:#73ada2">
                                     <%= list[i].ingredients %>
                                 </p>
-                                <a href="/recipes/<%=list[i]._id %>" class="card-link btn btn-outline-success ms-2" role="button">
+                                <a href="/recipes/<%=list[i]._id %>" class="card-link btn btn-outline-success ms-2"
+                                    role="button">
                                     View Recipe
                                 </a>
                                 <form action="/recipes/<%=list[i]._id %>?_method=DELETE" method="POST" class="d-inline">
