@@ -6,16 +6,13 @@ const ejsMate = require("ejs-mate");
 const methodOverride = require('method-override');
 const Recipe = require("./models/Recipe");
 const Ingredient = require("./models/Ingredients");
-const Darkmode = require('darkmode-js');
-
-new Darkmode().showWidget();
 
 function logRequest(req, res, next) {
     console.log(`${new Date()}  ${req.ip} : ${req.method} ${req.path}`);
     next();
 }
 
-mongoose.connect("mongodb://localhost:29017/expirare", {
+mongoose.connect("mongodb://localhost:27017/expirare", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
@@ -27,7 +24,7 @@ db.once("open", () => {
 });
 
 const host = "localhost";
-const port = 9000;
+const port = 8000;
 const clientApp = path.join(__dirname, "public");
 
 
@@ -55,37 +52,76 @@ app.listen(port, () => {
     );
 });
 
+let oneInList = (list1, list2) => {
+    for(let item of list1){
+        for(let item2 of list2) {
+            if(item === item2['name']) {
+                return true
+            }
+        }
+    }
+    return false
+}
+
+let allInList = (list1, list2) => {
+
+    for(let item of list1){
+        let bool = false
+        for(let item2 of list2) {
+            if(item === item2['name']){
+                bool = true
+            }
+        }
+        if(!bool) return false
+    }
+    return true
+}
+
 app.get("/", async(req, res) => {
-    let list = await Recipe.find({});
+    let listf = await Recipe.find({});
+    // console.log(list)
+    let fullIngredientList = await Ingredient.find({})
     let ingredientList = await Ingredient.find({
         lifeSpan: {
             $lt: (86400000 * (4 + 30)) + Date.now(),
             $gt: (86400000 * (0 + 30)) + Date.now()
         }
     })
+    let list = await listf.filter(x => {
+        if(oneInList(x.ingredients, ingredientList) && allInList(x.ingredients, fullIngredientList)) {
+            return x
+        }
+    })
     let num = (list.length > 8) ? 8 : list.length;
     let expired = ingredientList.length;
-    res.render("home", { list, num, expired });
+    res.render("home", { list: listt, num, expired });
 });
 
 app.get("/home", async(req, res) => {
-    let list = await Recipe.find({});
+    let listf = await Recipe.find({});
+    // console.log(list)
+    let fullIngredientList = await Ingredient.find({})
     let ingredientList = await Ingredient.find({
         lifeSpan: {
             $lt: (86400000 * (4 + 30)) + Date.now(),
             $gt: (86400000 * (0 + 30)) + Date.now()
         }
     })
+    let list = await listf.filter(x => {
+        if(oneInList(x.ingredients, ingredientList) && allInList(x.ingredients, fullIngredientList)) {
+            return x
+        }
+    })
     let num = (list.length > 8) ? 8 : list.length;
     let expired = ingredientList.length;
-    res.render("home", { list, num, expired });
+    res.render("home", { list: list, num, expired });
 });
 
 
 app.get("/food", async(req, res) => {
     let list = await Ingredient.find({});
     list = list.sort((a, b) => a.lifeSpan - b.lifeSpan)
-    console.log(list)
+    // console.log(list)
     res.render("ingredients/allIngredients", { list })
 });
 
@@ -116,13 +152,21 @@ app.get("/recipes/new", (req, res) => {
 });
 
 app.post("/recipes", async(req, res) => {
-    await new Recipe(req.body).save();
+    let listIngredient = req.body.ingredients.split(",").map(x => x.trim())
+    // console.log(listIngredient)
+    await new Recipe({
+        title: req.body.title,
+        ingredients: listIngredient,
+        procedure: req.body.procedure
+    }).save();
     res.redirect("/home");
 });
 
 app.get('/recipes/:id', async(req, res) => {
     let { id } = req.params;
     let recipe = await Recipe.findById(id);
+    // let recipe = await Recipe.findById(id);
+    // console.log(recipe)
     res.render("recipes/showRecipe", { recipe })
 })
 
