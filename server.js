@@ -89,7 +89,6 @@ let format = (list) => {
 
 app.get("/", async(req, res) => {
     let listf = await Recipe.find({});
-    // console.log(list)
     let fullIngredientList = await Ingredient.find({})
     let ingredientList = await Ingredient.find({
         lifeSpan: {
@@ -108,16 +107,11 @@ app.get("/", async(req, res) => {
     let num = (list.length > 8) ? 8 : list.length;
     let num2 = (apiRecipes.length > 8) ? 8 : apiRecipes.length
     let expired = ingredientList.length;
-<<<<<<< HEAD
-    res.render("home", { list: list, num, expired });
-=======
     res.render("home", { list, num, expired, apiRecipes, num2 });
->>>>>>> cf2f390d60a966adc08bb2cc3007499ede8f4df4
 });
 
 app.get("/home", async(req, res) => {
     let listf = await Recipe.find({});
-    // console.log(list)
     let fullIngredientList = await Ingredient.find({})
     let ingredientList = await Ingredient.find({
         lifeSpan: {
@@ -145,7 +139,6 @@ app.get("/home", async(req, res) => {
 app.get("/food", async(req, res) => {
     let list = await Ingredient.find({});
     list = list.sort((a, b) => a.lifeSpan - b.lifeSpan)
-    // console.log(list)
     res.render("ingredients/allIngredients", { list })
 });
 
@@ -178,7 +171,6 @@ app.get("/recipes/new", (req, res) => {
 
 app.post("/recipes", async(req, res) => {
     let listIngredient = req.body.ingredients.split(",").map(x => x.trim())
-    // console.log(listIngredient)
     await new Recipe({
         title: req.body.title,
         ingredients: listIngredient,
@@ -191,8 +183,6 @@ app.post("/recipes", async(req, res) => {
 app.get('/recipes/:id', async(req, res) => {
     let { id } = req.params;
     let recipe = await Recipe.findById(id);
-    // let recipe = await Recipe.findById(id);
-    // console.log(recipe)
     res.render("recipes/showRecipe", { recipe })
 })
 
@@ -200,7 +190,6 @@ app.get('/recipes/:id', async(req, res) => {
 
 app.delete('/recipes/:id', async(req, res) => {
     let { id } = req.params;
-    // await Recipe.deleteMany({})
     await Recipe.findByIdAndDelete(id);
     res.redirect('/recipes')
 })
